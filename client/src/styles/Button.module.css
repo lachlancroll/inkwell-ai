@@ -1,0 +1,17 @@
+.wrapper {
+    padding: 1rem;
+}
+
+.button {
+    font-size: large;
+    padding: 1rem;
+    background-color: transparent;
+    width: 200px;
+    height: 100px;
+    border-radius: 30px;
+    font-family: arial;
+    font-weight: bold;
+    border-color: white;
+    border-width: thick;
+    border-style: solid;
+}
