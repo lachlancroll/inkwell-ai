@@ -11,16 +11,24 @@ const Home = () => {
   const [data, setData] = useState<string | null>(null);
   const [armUpload, setArmUpload] = useState<File | null>(null);
   const [tattooUpload, setTattooUpload] = useState<File | null>(null);
+  const [armImage, setArmImage] = useState<string | null>(null);
+  const [tattooImage, setTattooImage] = useState<string | null>(null);
 
   const handleArmInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setArmUpload(event.target.files[0]);
+      // Create a blob URL for the uploaded file
+      const imageUrl = URL.createObjectURL(event.target.files[0]);
+      setArmImage(imageUrl);
     }
   };
 
   const handleTattooInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setTattooUpload(event.target.files[0]);
+      // Create a blob URL for the uploaded file
+      const imageUrl = URL.createObjectURL(event.target.files[0]);
+      setTattooImage(imageUrl);
     }
   }
 
@@ -60,22 +68,20 @@ const Home = () => {
         <div className={styles.logo}>
           <Image src={logo.src} alt="inkwell logo" width='200' height='140' />
         </div>
-        <div className={styles.wrapper}>
-          {data && <img src={data} alt="random image" />}
-          <Button onClick={handleGenerate} text='Generate' />
-        </div>
         <div className={styles.buttonPanel}>
-          <div>
-            <FileInputButton onChange={handleArmInputChange} text='upload arm image'/>
+          <div className={styles.fileUpload}>
+            <FileInputButton image={armImage} onChange={handleArmInputChange} text='Upload Arm Image' />
           </div>
-          <div>
-            <FileInputButton onChange={handleTattooInputChange} text='upload tattoo'/>
+          <div className={styles.fileUpload}>
+            <FileInputButton image={tattooImage} onChange={handleTattooInputChange} text='Upload Tattoo Image' />
           </div>
         </div>
-        <div className={styles.buttonPanel}>
-          <Button onClick={() => null} text='choose from existing models' />
-          <Button onClick={() => null} text='choose from existing tattoos' />
+        <div className={styles.generate}>
+          <Button onClick={handleGenerate}>
+            Generate
+          </Button>
         </div>
+        {data && <Image src={data} alt="random image" width='200' height='320' />}
       </main>
     </>
   )

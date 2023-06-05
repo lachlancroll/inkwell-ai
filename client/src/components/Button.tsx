@@ -2,16 +2,14 @@ import styles from '@/styles/Button.module.css';
 
 interface ButtonProps {
   onClick: () => void;
-  text: string;
+  children: React.ReactNode;
 }
 
-const Button = ({ onClick, text }: ButtonProps) => {
+const Button = ({ onClick, children }: ButtonProps) => {
   return (
-    <div className={styles.wrapper}>
-      <button className={styles.button} onClick={onClick}>
-        {text}
-      </button>
-    </div>
+    <button className={styles.button} onClick={onClick}>
+      {children}
+    </button>
   );
 };
 

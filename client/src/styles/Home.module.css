@@ -1,9 +1,9 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 6rem;
+  padding: 2rem;
   min-height: 100vh;
 }
 
@@ -14,27 +14,8 @@
   height: 100px;
 }
 
-.main input:before {
-  /*content: attr(placeholder);
-  visibility: visible;
-  box-sizing: border-box;
-  position: absolute;
-  display: block;
-  width: 100%;
-  height: 100%;
-  /* Add here your design... */
-  /*line-height: 16px;
-  background-color: transparent;
-  border: 5px solid white;
-  border-radius: 30px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  cursor: pointer;*/
-}
-
 .logo {
-  padding: 3rem;
+  padding: 1rem;
 }
 
 .buttonPanel {
@@ -44,4 +25,22 @@
 
 .wrapper {
   align-items: center;
+}
+
+.imageWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.image {
+  padding: 3rem;
+  display: inline-block;
+}
+
+.fileUpload {
+  padding: 3rem;
+}
+
+.generate {
+  padding: 1rem;
 }

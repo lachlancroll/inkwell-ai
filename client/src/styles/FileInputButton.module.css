@@ -1,0 +1,18 @@
+.container {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.image {
+    opacity: 0.5;
+}
+
+.centered {
+    position: absolute;
+    font-family: arial;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+}
