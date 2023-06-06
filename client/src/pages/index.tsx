@@ -5,14 +5,18 @@ import logo from '../images/inkwell-logo.png'
 import Image from 'next/image';
 import Button from '@/components/Button';
 import FileInputButton from '@/components/FileInputButton';
+import TattooSelection from '@/components/TattooSelection';
+import star from '../../../flask-server/images/star.jpg'
 
 const Home = () => {
-
   const [data, setData] = useState<string | null>(null);
   const [armUpload, setArmUpload] = useState<File | null>(null);
-  const [tattooUpload, setTattooUpload] = useState<File | null>(null);
   const [armImage, setArmImage] = useState<string | null>(null);
-  const [tattooImage, setTattooImage] = useState<string | null>(null);
+  const [tattooImage, setTattooImage] = useState<string | null>(star.src);
+  const [x, setX] = useState<number | null>(null);
+  const [y, setY] = useState<number | null>(null);
+  const [tattooWidth, setTattooWidth] = useState<number | null>(90);
+  const [tattooLength, setTattooLength] = useState<number | null>(90);
 
   const handleArmInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -23,23 +27,21 @@ const Home = () => {
     }
   };
 
-  const handleTattooInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setTattooUpload(event.target.files[0]);
-      // Create a blob URL for the uploaded file
-      const imageUrl = URL.createObjectURL(event.target.files[0]);
-      setTattooImage(imageUrl);
-    }
-  }
-
-  const handleGenerate = () => {
-    if (!armUpload || !tattooUpload) {
+  const handleGenerate = async () => {
+    if (!armUpload || !tattooImage) {
       return;
     }
 
     const formData = new FormData();
     formData.append('arm_file', armUpload);
-    formData.append('tattoo_file', tattooUpload);
+    formData.append('x', x ? x.toString() : '');
+    formData.append('y', y ? y.toString() : '');
+    formData.append('height', tattooWidth ? tattooWidth.toString() : '');
+    formData.append('width', tattooLength ? tattooLength.toString() : '');
+
+    // Convert tattoo image to blob
+    const tattooImageBlob = await fetch(tattooImage).then(response => response.blob());
+    formData.append('tattoo_file', tattooImageBlob);
 
     fetch('http://localhost:5000/upload', {
       method: 'POST',
@@ -47,7 +49,6 @@ const Home = () => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data)
         const img_src = `data:image/png;base64,${data.img}`;
         setData(img_src);
       })
@@ -73,7 +74,7 @@ const Home = () => {
             <FileInputButton image={armImage} onChange={handleArmInputChange} text='Upload Arm Image' />
           </div>
           <div className={styles.fileUpload}>
-            <FileInputButton image={tattooImage} onChange={handleTattooInputChange} text='Upload Tattoo Image' />
+            <TattooSelection setY={setY} setX={setX} />
           </div>
         </div>
         <div className={styles.generate}>
