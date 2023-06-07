@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Stage, Layer, Image as KonvaImage } from 'react-konva';
 import arm from '../images/arm.png'
-import star from '../../../flask-server/images/star.jpg'
 
 interface TattooSelection {
   setY: (num: number) => void;
   setX: (num: number) => void;
+  src: string;
 }
 
-const TattooSelection = ({ setX, setY }: TattooSelection) => {
+const TattooSelection = ({ setX, setY, src }: TattooSelection) => {
   const [image, setImage] = useState<CanvasImageSource | undefined>(undefined);
   const [draggableImage, setDraggableImage] = useState<CanvasImageSource | undefined>(undefined);
 
   useEffect(() => {
     const imageObj = new window.Image();
-    imageObj.src = star.src;
+    imageObj.src = src;
     imageObj.onload = () => {
       // Create an off-screen canvas
       const canvas = document.createElement('canvas');
@@ -46,7 +46,7 @@ const TattooSelection = ({ setX, setY }: TattooSelection) => {
         setDraggableImage(newImage);
       }
     }
-  }, []);
+  }, [src]);
 
 
 

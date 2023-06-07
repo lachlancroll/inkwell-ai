@@ -14,7 +14,7 @@
   height: 100px;
 }
 
-.logo {
+.wrapper {
   padding: 1rem;
 }
 
@@ -38,9 +38,13 @@
 }
 
 .fileUpload {
-  padding: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:3rem;
 }
 
-.generate {
-  padding: 1rem;
+.tattooButtons {
+  align-self: auto;
+  text-align: center;
 }

@@ -108,16 +108,16 @@ def convert_tattoo_to_rgba(image_array, alpha=255):
         return rgba_array
 
 def overlay_images(background, overlay):
-        # Create a copy of the background image to modify
+    # Create a copy of the background image to modify
     result = background.copy()
 
-        # Resize the overlay image to match the background shape
+    # Resize the overlay image to match the background shape
     overlay_resized = overlay[:background.shape[0], :background.shape[1]]
 
-        # Normalize the alpha values to range between 0 and 1
+    # Normalize the alpha values to range between 0 and 1
     overlay_alpha = overlay_resized[..., 3] / 255.0
 
-        # Compute the weighted overlay using alpha blending
+    # Compute the weighted overlay using alpha blending
     result_alpha = 1 - (1 - overlay_alpha) * (1 - result[..., 3] / 255.0)
     result_alpha = np.clip(result_alpha, 0, 1)
 
@@ -125,6 +125,11 @@ def overlay_images(background, overlay):
     result[..., 3] = result_alpha * 255
 
     return result
+
+def invert_colors(image):
+    max_value = np.max(image)
+    inverted_image = max_value - image
+    return inverted_image
 
 def load_image(final_img):
     img_array = np.array(final_img)
@@ -221,7 +226,8 @@ def make_image():
     threshold = 0.5
 
     # Binarize the image array
-    binarized_image_array = np.where(resized_image > threshold, 0., 1.)
+    #binarized_image_array = np.where(resized_image > threshold, 0., 1.)
+    binarized_image_array = invert_colors(resized_image)
 
     # making the keypoints for the flat arm
     tl = (71, 137)

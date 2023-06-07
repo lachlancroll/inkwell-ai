@@ -6,17 +6,21 @@ import Image from 'next/image';
 import Button from '@/components/Button';
 import FileInputButton from '@/components/FileInputButton';
 import TattooSelection from '@/components/TattooSelection';
-import star from '../../../flask-server/images/star.jpg'
+import star from '../../../flask-server/images/star.jpg';
+import TattooSelectionSheet from '@/components/TattooSelectionSheet';
+import { Grid } from '@mui/material'
+import emptyFrame from '../images/Empty-frame.png'
 
 const Home = () => {
   const [data, setData] = useState<string | null>(null);
   const [armUpload, setArmUpload] = useState<File | null>(null);
   const [armImage, setArmImage] = useState<string | null>(null);
-  const [tattooImage, setTattooImage] = useState<string | null>(star.src);
+  const [tattooImage, setTattooImage] = useState<string>(star.src);
   const [x, setX] = useState<number | null>(null);
   const [y, setY] = useState<number | null>(null);
   const [tattooWidth, setTattooWidth] = useState<number | null>(90);
   const [tattooLength, setTattooLength] = useState<number | null>(90);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleArmInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -57,6 +61,10 @@ const Home = () => {
       });
   }
 
+  const handleChangeTattoo = () => {
+    setIsOpen(true);
+  }
+
   return (
     <>
       <Head>
@@ -66,24 +74,48 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.logo}>
+        <div className={styles.wrapper}>
           <Image src={logo.src} alt="inkwell logo" width='200' height='140' />
         </div>
-        <div className={styles.buttonPanel}>
-          <div className={styles.fileUpload}>
-            <FileInputButton image={armImage} onChange={handleArmInputChange} text='Upload Arm Image' />
-          </div>
-          <div className={styles.fileUpload}>
-            <TattooSelection setY={setY} setX={setX} />
-          </div>
-        </div>
-        <div className={styles.generate}>
-          <Button onClick={handleGenerate}>
-            Generate
-          </Button>
-        </div>
-        {data && <Image src={data} alt="random image" width='200' height='320' />}
+        <Grid
+          container
+          rowSpacing={1}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          className={styles.tattooButtons}
+        >
+          <Grid item xs={4}>
+            <div className={styles.fileUpload}>
+              <FileInputButton image={armImage} onChange={handleArmInputChange} text='Upload Arm Image' />
+            </div>
+          </Grid>
+          <Grid item xs={4}>
+            <div className={styles.fileUpload}>
+              <TattooSelection setY={setY} setX={setX} src={tattooImage} />
+            </div>
+          </Grid>
+          <Grid item xs={4}>
+            <div className={styles.fileUpload}>
+              <Image src={data ? data : emptyFrame.src} alt="random image" width='200' height='320' />
+            </div>
+          </Grid>
+          <Grid item xs={4}>
+            <Button onClick={() => null}>
+              Upload arm image
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <Button onClick={handleChangeTattoo}>
+              Change Tattoo
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <Button onClick={handleGenerate}>
+              Generate
+            </Button>
+          </Grid>
+        </Grid>
       </main>
+      <TattooSelectionSheet isOpen={isOpen} setIsOpen={setIsOpen} setSrc={setTattooImage} />
     </>
   )
 }

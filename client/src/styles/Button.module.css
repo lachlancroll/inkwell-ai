@@ -11,3 +11,7 @@
     border-width: thick;
     border-style: solid;
 }
+
+.container {
+    padding: 3rem;
+}

@@ -10,6 +10,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/joy": "^5.0.0-alpha.83",
+    "@mui/material": "^5.13.4",
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
